@@ -1,5 +1,5 @@
 
-setwd("/Users/beaunorgeot/vantveer")
+setwd("/Users/beaunorgeot/vantveerRotation")
 #Headers are in the 3rd row
 mainTable <- read.csv("/Users/beaunorgeot/vantveer/SuppTab1.csv", skip = 2)
 
@@ -40,14 +40,13 @@ response <- c("Sens","Res")
 drugResponse <- c(paste0(rep(features, 2), "_", rep(response, each=90)))
 drugs[,drugResponse] <- NA 
 
+
+drugs1 <- drugs
 # This works!
 drugs1 <- drugs1 %>% mutate(Sens_X17.AAG = ifelse(X17.AAG < mean(X17.AAG,na.rm=T),1,0))
 
 # Create Sensitivity DummyVar
 for(f in features){
-  print(drugs1[,f]) #debugging. Check out the execution order! prints all values of f, then the mean
-  #print(drugs1$f) #null. R sucks
-  print(mean(drugs1[,f],na.rm=T)) #for debug only
   dummy.var <- paste("Sens", f, sep='_')
   drugs1[, dummy.var] <- NA
   drugs1[,dummy.var] <- ifelse(drugs1[,f] <= mean(drugs1[,f],na.rm=T),1,0) 
@@ -55,13 +54,24 @@ for(f in features){
 
 # Create Resistant DummyVar
 for(f in features){
-  print(drugs1[,f]) #debugging. Check out the execution order! prints all values of f, then the mean
-  #print(drugs1$f) #null. R sucks
-  print(mean(drugs1[,f],na.rm=T)) #for debug only
   dummy.var <- paste("Res", f, sep='_')
   drugs1[, dummy.var] <- NA
   drugs1[,dummy.var] <- ifelse(drugs1[,f] >= mean(drugs1[,f],na.rm=T),1,0) 
 }
+
+drugsMean <- drugs1 %>% select(90:180)
+#Test for non-normalcy
+#acceptable for use w/our data < 2000 samples
+# null = not-normal. reject null if p.value greater than .1 according to docs, .05 most of time
+shtest1 <- lapply(drugsMean,shapiro.test)
+#extract statistic and p-values
+drugsMeanNormalStats <- sapply(shtest1, `[`, c("statistic","p.value"))
+drugsMeanNormalStats <- as.data.frame(drugsMeanNormalStats)
+#transpose
+drugsMeanNormalStats <- t(drugsMeanNormalStats)
+drugsMeanNormalStats <- as.data.frame(drugsMeanNormalStats)
+notNormMean <- drugsMeanNormalStats %>% filter(p.value > 0.5) #There are no rows that are blatantly not normal
+#investigate columns more latter w/qqplots
 
 #Next: sd == sqrt(var) in R, is.normal()?, 3 cuts (low dose is sens, middle 3rd neutral, upper 3rd res)
 # check to make sure dummy.var isn't a column, after running correlations on drugs ->
@@ -70,7 +80,7 @@ for(f in features){
 
 
 
-
+#NOTES
 # apply(). Write a function that does what you want to 1 column, pass that function and the df of interest to apply()
 
 #1. What is f? mean(drugs1[,f],na.rm=T) creates a logical vector
