@@ -1,0 +1,122 @@
+"Supplementary Table 5: Overview of the best LS-SVM/RF model for all 90 therapeutic compounds with comparison to the LS-SVM AUC based on subtype and ERBB2 status. For the subset of 51 compounds with test AUC exceeding 0.7, additional information is provided on clinical trial status, comparison of GI50 with TGI, validation results of the cell line signal in the TCGA tumor samples, and most significant non-subtype related KEGG/BioCarta pathways from Supplementary Table 7.",,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+Drug compound,Target,Clinical information,Best molecular data set,Nb cell lines (molecular),Molecular AUC,Nb molecular features,Model,Subtype AUC,Difference in AUC,GI50 vs. TGI,TCGA preva-lence,TCGA subtype,Median p-valueᴈ,# non-subtype pathways/GO categories with FDR p-value < 0.05,Sample KEGG/BioCarta pathways in order of increasing FDR p-value (restricted to maximum 10 most significant pathways) (see Supplementary Table 8 for complete results)
+Lapatinib,"ERBB2, EGFR",Approved BC,RNA-seq (all features),35,0.973,33,RF,0.896,0.077,80.8,28.3,ERBB2,2.45E-15,19,Phosphatidylinositol signaling system; Phospholipase C-epsilon pathway; Adhesion Molecules on Lymphocyte; √ü-arrestins in GPCR Desensitization; Role of √ü-arrestins in the activation and targeting of MAP kinases; Roles of √ü-arrestin-dependent Recruitment of Src Kinases in GPCR Signaling
+Sigma AKT1-2 inhibitor,"AKT 1, AKT2",Phase II BC,Exon array (gene level),41,0.938,37,RF,0.852,0.086,89.8,39.9,L+ ERBB2,3.94E-06,76,Glutathione metabolism; Ghrelin: Regulation of Food Intake and Energy Homeostasis; Cyanoamino acid metabolism; Glycosphingolipid biosynthesis; Platelet Amyloid Precursor Protein Pathway; Taurine and hypotaurine metabolism; O-Glycan biosynthesis
+BIBW2992,"ERBB2, EGFR",Phase II for HER2+,SNP6,34,0.919,30,LS-SVM,0.811,0.108,88.4,25.1,ERBB2,4.41E-05,0,
+GSK2126458,PIK3C A/B/D/G,Phase I advanced solid tumors,Exon array (gene level),41,0.907,20,RF,0.847,0.06,83.7,66.6,L+ERBB2,0.056,115,Ghrelin: Regulation of Food Intake and Energy Homeostasis; Glutathione metabolism; Glycosphingolipid biosynthesis; Dorso-ventral axis formation; Platelet Amyloid Precursor Protein Pathway; Tight junction; ALK in cardiac myocytes
+GSK461364A,PLK1,Phase I advanced solid tumor,RNA-seq (gene level) + SNP6,32,0.881,8,RF,0.762,0.119,81.5,72.8,B+CL,3.80E-07,116,Platelet Amyloid Precursor Protein Pathway; Hedgehog signaling pathway; Basal cell carcinoma; Vitamin C in the Brain; Steroid hormone biosynthesis; Apoptosis; Prion diseases; Regulation of hematopoiesis by cytokines; Metabolism of xenobiotics by cytochrome P450
+GSK2141795,AKT,Phase I solid + ovarian,RPPA,29,0.871,18,RF,0.778,0.093,94.1,47.4,L+ ERBB2,6.29E-06,80,*
+LBH589,HDAC,Phase II mBC,RPPA,34,0.866,18,LS-SVM,0.733,0.133,87.5,48.4,L+ERBB2,7.20E-07,95,*
+Everolimus,mTOR,Approved,RNA-seq (gene level) + SNP6,29,0.852,66,RF,0.815,0.037,90.7,44.4,ERBB2,3.07E-04,102,Platelet Amyloid Precursor Protein Pathway; Regulation of hematopoiesis by cytokines; Apoptosis; NF-kB Signaling Pathway; Alternative Complement Pathway; ALK in cardiac myocytes; Prion diseases; Nerve growth factor pathway (NGF)
+Docetaxel,"TUBB1, BCL2",Approved BC,Methylation,39,0.832,2532,RF,0.634,0.198,58.5,68.8,B+CL,No spec,152,"Olfactory transduction; Endometrial cancer; Gastric acid secretion; Huntington's disease; Wnt signaling pathway; Activation of cAMP-dependent protein kinase, PKA; Glycosphingolipid biosynthesis; SUMOylation as a mechanism to modulate CtBP-dependent gene responses; Selenoamino acid metabolism; Insulin signaling pathway"
+CGC-11047,Polyamine analog,Phase I advanced solid tumors,RNA-seq (gene level) + meth + SNP6,29,0.824,4348,RF,0.656,0.168,67.9,50.5,B,No spec,259,Olfactory transduction; Hedgehog signaling pathway; Basal cell carcinoma; Wnt signaling pathway; Long-term depression; Gastric acid secretion; Spliceosome; Neuroactive ligand-receptor interaction; Proteasome; Long-term potentiation
+GSK2119563,PIK3CA,None,Exon array (gene level),41,0.821,518,RF,0.735,0.086,75.5,50.8,ERBB2,0.081,49,Ghrelin: Regulation of Food Intake and Energy Homeostasis; Cyanoamino acid metabolism; Metabolic pathways; Taurine and hypotaurine metabolism; Glutathione metabolism; Dorso-ventral axis formation; Sphingolipid metabolism; Nuclear Receptors in Lipid Metabolism and Toxicity
+SAHA (Vorinostat),HDAC,Approved,RNA-seq (all features),37,0.818,63,RF,0.722,0.096,92,42.1,L+ERBB2,4.51E-08,144,Phagosome; uCalpain and friends in Cell spread; Cystic fibrosis transmembrane conductance regulator (CFTR) and beta 2 adrenergic receptor (b2AR) pathway; Metabolism of xenobiotics by cytochrome P450; Regulation of hematopoiesis by cytokines; Basal cell carcinoma; Platelet Amyloid Precursor Protein Pathway; Hedgehog signaling pathway; Synaptic Proteins at the Synaptic Junction; Prion diseases
+Rapamycin,mTOR,Approved,RPPA,38,0.811,9,LS-SVM,0.727,0.084,65.4,55.8,L+ERBB2,0.059,37,*
+Triciribine,"AKT, ZNF217",None,Methylation + SNP6,36,0.809,477,RF,0.628,0.181,85.4,42.7,L+ERBB2,No spec,38,"Neuroactive ligand-receptor interaction; Prion Pathway; Inhibition of Huntington's disease neurodegeneration by histone deacetylase inhibitors; Systemic lupus erythematosus; Glycine, serine and threonine metabolism; Amyotrophic lateral sclerosis (ALS); Melanocyte Development and Pigmentation Pathway"
+Iressa,PIK3C,Approved,SNP6,42,0.801,59,LS-SVM,0.703,0.098,82.7,40.6,ERBB2,0.005,5,CTCF: First Multivalent Nuclear Factor
+Lapatinib:IGF1R,"ERBB2, EGFR, IGF1R",Phase II BC,Exon array (gene level) + meth,36,0.793,4114,RF,0.679,0.114,89.1,35.8,L+ERBB2,No spec,200,Olfactory transduction; Wnt signaling pathway; Spliceosome; Ribosome; Long-term potentiation; Endometrial cancer; Hedgehog signaling pathway; Sonic Hedgehog (SHH) Receptor Ptc1 Regulates cell cycle; ALK in cardiac myocytes; TGF beta signaling pathway
+TGX-221,PIK3CB,None,RNA-seq (gene level) + meth + SNP6,28,0.785,205,RF,0.602,0.183,68.1,36.6,,,49,Neuroactive ligand-receptor interaction; Prion diseases; IL-7 Signal Transduction; O-Glycan biosynthesis
+NU6102,CDK1/CCNB,None,SNP6,36,0.778,124,RF,0.568,0.21,88.9,39.9,B+CL,0.013,16,Drug metabolism; Metabolism of xenobiotics by cytochrome P450; Starch and sucrose metabolism; CTCF: First Multivalent Nuclear Factor; Ascorbate and aldarate metabolism; Pentose and glucuronate interconversions; Porphyrin and chlorophyll metabolism; Glutathione metabolism; Drug metabolism; Steroid hormone biosynthesis
+GSK1059615B,PI3K,Phase I solid tumors,RNA-seq (gene level),37,0.776,59,LS-SVM,0.732,0.044,90.6,45.3,L+ERBB2,0.001,44,Apoptosis; Regulation of hematopoiesis by cytokines; Phosphorylation of MEK1 by cdk5/p35 down regulates the MAP kinase pathway; Nerve growth factor pathway (NGF); NF-kB Signaling Pathway; Erk1/Erk2 Mapk Signaling pathway
+GSK1120212B,MEK,Phase III melanoma,RNA-seq (gene level) + SNP6,33,0.775,74,LS-SVM,0.545,0.23,68.5,38.8,,,8,
+Ixabepilone,Microtubule,Approved BC,Exon array (gene level) + meth,39,0.772,2999,RF,0.67,0.102,88,,,,127,"Hedgehog signaling pathway; Long-term depression; VEGF, Hypoxia, and Angiogenesis; Colorectal cancer; Wnt signaling pathway; Spliceosome; Multi-step Regulation of Transcription by Pitx2; Endometrial cancer; Long-term potentiation; TGF beta signaling pathway"
+Etoposide,Topoisomerase II,Approved,Exon array (gene level) + SNP6,40,0.77,155,LS-SVM,0.67,0.1,82,53.5,CL,0.078,17,Ghrelin: Regulation of Food Intake and Energy Homeostasis; Glycosphingolipid biosynthesis; Glycosaminoglycan biosynthesis; O-Glycan biosynthesis
+Tamoxifen,ESR1,Approved BC,Exome-seq (7 genes),43,0.767,7,LS-SVM,0.625,0.142,87.8,,,,,
+5-FU,Pyrimidine analog,Approved,RNA-seq (gene level) + methylation,30,0.766,355,LS-SVM,0.485,0.281,72.5,65.7,L+ERBB2,0.002,15,Asthma; Inactivation of Gsk3 by AKT causes accumulation of b-catenin in Alveolar Macrophages
+PF-4691502,"PI3K, pan / mTOR",Phase II early BC,Exon array (gene level) + meth,37,0.762,26,LS-SVM,0.678,0.084,84.2,51.7,L+ERBB2,No spec,73,"Cystic fibrosis transmembrane conductance regulator (CFTR) and beta 2 adrenergic receptor (b2AR) pathway; ChREBP regulation by carbohydrates and cAMP; Glycine, serine and threonine metabolism; Tight junction; Activation of cAMP-dependent protein kinase, PKA; Catabolic Pathways for Arginine , Histidine, Glutamate, Glutamine, and Proline; Regulation of BAD phosphorylation"
+AG1478,EGFR,None,SNP6,41,0.753,52,LS-SVM,0.719,0.034,83.7,36,ERBB2,2.00E-04,1,
+PF-3814735,"AURKA, AURKB",None,RNA-seq (gene level) + meth + SNP6,27,0.753,18,RF,0.722,0.031,64.9,,,,12,Homologous recombination
+Fascaplysin,CDK,None,RNA-seq (gene level),36,0.751,36,LS-SVM,0.661,0.09,94,32.3,L+ERBB2,No spec,1,
+ICRF-193,"PLK1, Topoisomerase II",None,RNA-seq (gene level) + meth,30,0.75,34,RF,0.578,0.172,62.5,35.9,,,11,O-Glycan biosynthesis
+PD98059,MEK,None,Full combination,41,0.748,11377,LS-SVM,0.645,0.103,34.7,25.3,,,142,Spliceosome; Systemic lupus erythematosus; Ribosome; Nuclear Receptors in Lipid Metabolism and Toxicity; Ghrelin: Regulation of Food Intake and Energy Homeostasis; Actions of Nitric Oxide in the Heart; Transcriptional activation of dbpb from mRNA; Segmentation Clock; IL-7 Signal Transduction
+Nutlin 3a,MDM2,None,RNA-seq (gene level),37,0.745,34,LS-SVM,0.525,0.22,84.3,42.7,L+ERBB2,No spec,3,
+Cisplatin,DNA cross-linker,Approved,RNA-seq (gene level),37,0.745,715,RF,0.623,0.122,90.9,73.1,B+CL,1.87E-08,154,Platelet Amyloid Precursor Protein Pathway; Glycosaminoglycan biosynthesis; Basal cell carcinoma; Hedgehog signaling pathway; Vitamin C in the Brain; Regulation of hematopoiesis by cytokines; Gastric acid secretion
+IKK 16,IkB,None,RNA-seq (all features),32,0.745,22,RF,0.474,0.271,86,,,,0,
+PF-3084014,y-secretase,None,Exon array (gene level),40,0.745,57,RF,0.43,0.315,79.3,,,,14,Ghrelin: Regulation of Food Intake and Energy Homeostasis; Histidine metabolism; Glutathione metabolism
+GSK923295,CENPE,Phase I refractory cancer,U133A + methylation,39,0.742,777,LS-SVM,0.535,0.207,81.1,85.5,ERBB2,No spec,59,Neuroactive ligand-receptor interaction; Pyruvate metabolism; Prion Pathway; Systemic lupus erythematosus
+FTase inhibitor I,Farnesyl transferase,Phase II cutaneous melanoma,RNA-seq (all features),36,0.742,30,RF,0.591,0.151,100,,,,0,
+AS-252424,PIK3CG,None,Exon array (gene level) + meth,37,0.74,4571,RF,0.393,0.347,50,,,,312,Olfactory transduction; Basal cell carcinoma; Neuroactive ligand-receptor interaction; Hedgehog signaling pathway; Inactivation of Gsk3 by AKT causes accumulation of b-catenin in Alveolar Macrophages; Long-term depression; Wnt signaling pathway; Ribosome; Prion diseases; Spliceosome
+Bortezomib,"Proteasome, NFkB",Approved,RNA-seq (gene level),36,0.739,63,RF,0.555,0.184,94,71.8,ERBB2,1.70E-04,1,Segmentation Clock
+Epirubicin,Topoisomerase II,Approved,RNA-seq (gene level) + SNP6,28,0.739,66,RF,0.436,0.303,76.6,52.1,,,4,Carbohydrate digestion and absorption
+TCS PIM-11,PIM-1,None,U133A + methylation,38,0.735,4785,RF,0.492,0.243,73.5,29.2,,,187,"Olfactory transduction; Hedgehog signaling pathway; Endometrial cancer; Spliceosome; Starch and sucrose metabolism; Ribosome; VEGF, Hypoxia, and Angiogenesis; Leloir pathway of galactose metabolism; Inactivation of Gsk3 by AKT causes accumulation of b-catenin in Alveolar Macrophages; Wnt signaling pathway"
+PF-2341066,Met/ALK,None,RNA-seq (gene level) + meth + SNP6,27,0.733,149,RF,0.5,0.233,87.8,,,,19,Base excision repair; Homologous recombination; Phosphatidylinositol signaling system; FAS signaling pathway ( CD95 ); p38 MAPK Signaling Pathway
+Bosutinib,SRC,Phase II BC,U133A + SNP6,34,0.732,77,RF,0.706,0.026,84.8,,,,42,"Hypoxia and p53 in the Cardiovascular system; Glycine, serine and threonine metabolism; Steroid hormone biosynthesis; Metabolism of xenobiotics by cytochrome P450; Fructose and mannose metabolism"
+Valproic acid,HDAC,Approved,RPPA,35,0.731,10,LS-SVM,0.672,0.059,83.7,,,,15,*
+Paclitaxel,Microtubule,Approved,U133A + methylation + SNP6,38,0.728,34,RF,0.507,0.221,76.4,,,,5,SNARE interactions in vesicular transport
+Glycyl H1152,Rho kinase,None,RNA-seq (gene level) + meth + SNP6,28,0.728,995,RF,0.638,0.09,74.5,,,,20,
+Doxorubicin,Topoisomerase II,Approved,RNA-seq (gene level) + SNP6,32,0.726,28,RF,0.498,0.228,80.8,,,,0,
+NSC663284,CDC25,None,RPPA,35,0.723,20,RF,0.531,0.192,91.8,,,,79,*
+Tamoxifen,ESR1,Approved BC,U133A,39,0.721,111,LS-SVM,0.625,0.096,87.8,34.5,L+ERBB2,3.10E-17,29,Ghrelin: Regulation of Food Intake and Energy Homeostasis; Glycolysis / Gluconeogenesis; Pyruvate metabolism; mCalpain and friends in Cell motility; Bacterial invasion of epithelial cells; PPAR signaling pathway; Proximal tubule bicarbonate reclamation; Integrin Signaling Pathway; N-Glycan biosynthesis
+Vinorelbine,Microtubule,Approved BC,U133A,41,0.720,6,RF,0.610,0.110,83.7,,,,,
+Disulfiram,Aldehyde dehydrogenase,Approved,RNA-seq (gene level) + SNP6,31,0.718,17,RF,0.464,0.254,77.1,,,,0,
+GSK1070916,AUR1,Phase I solid tumors,U133A + methylation,40,0.711,2092,LS-SVM,0.629,0.082,85.2,32.6,B+CL,9.52E-12,142,Hedgehog signaling pathway; SUMOylation as a mechanism to modulate CtBP-dependent gene responses; Role of Parkin in the Ubiquitin-Proteasomal Pathway; Repression of Pain Sensation by the Transcriptional Regulator DREAM; Glycosphingolipid biosynthesis
+CGC-11144,Polyamine analog,None,Exome-seq (7 genes),47,0.704,7,LS-SVM,0.516,0.189,80,,,,,
+,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+Lestaurtinib,"FLT-3, TRKA",,RPPA,35,0.700,51,RF,0.511,0.189,,,,,,
+CPT-11,Topoisomerase I,,Exon array (gene level) + SNP6,40,0.699,24,RF,0.610,0.089,,,,,,
+Imatinib,BCR/ABL fusion,,SNP6,42,0.699,20,LSSVM,0.470,0.229,,,,,,
+Trichostatin A,HDAC,,RNA-seq (gene level) + SNP6,34,0.699,170,LSSVM,0.589,0.109,,,,,,
+TCS2312 dihydrochloride,CHK1,,RNA-seq (all features),36,0.697,11001,RF,0.612,0.085,,,,,,
+MLN4924,NAE,,Exon array (gene level) +meth,38,0.696,32,LSSVM,0.493,0.203,,,,,,
+Sorafenib,VEGFR,,RNA-seq (all features),34,0.692,5262,RF,0.498,0.194,,,,,,
+Erlotinib,EGFR,,RPPA,37,0.691,32,LSSVM,0.680,0.011,,,,,,
+Mebendazole,Anthelmintic,,Exon array (gene level) + meth + SNP6,36,0.688,1702,LSSVM,0.462,0.226,,,,,,
+MG-132,Proteasome,,RPPA,34,0.687,3,RF,0.492,0.195,,,,,,
+GSK1838705,IGF1R,,meth + SNP6,38,0.683,166,RF,0.561,0.123,,,,,,
+Olomoucine II,CDC2,,RNA-seq (gene level),36,0.683,26,LSSVM,0.537,0.146,,,,,,
+VX-680,Aurora kinase,,meth + SNP6,36,0.679,4847,RF,0.523,0.156,,,,,,
+SB-3CT,"MMP2, MMP9",,RNA-seq (gene level) + meth + SNP6,29,0.678,16,RF,0.534,0.144,,,,,,
+Purvalanol A,CDK1,,RPPA,35,0.677,3,RF,0.573,0.104,,,,,,
+Geldanamycin,HSP90,,U133A + meth,41,0.675,183,LSSVM,0.464,0.211,,,,,,
+Oxaliplatin,DNA cross-linker,,Exon array (gene level) + SNP6,41,0.672,5,RF,0.522,0.149,,,,,,
+Baicalein,CYP2C9,,Exome-seq (7 genes),46,0.671,7,LSSVM,0.449,0.222,,,,,,
+Ibandronate sodium salt,FDPS,,Exon array (all features),40,0.669,75,RF,0.632,0.037,,,,,,
+XRP44X,RAS-NET (ELK3),,Exome-seq (7 genes),43,0.660,7,LSSVM,0.586,0.074,,,,,,
+Rafi IV (L779450),BRAF,,U133A,38,0.658,10,RF,0.390,0.269,,,,,,
+5-FdUR,DNA,,U133A,38,0.655,49,LSSVM,0.616,0.039,,,,,,
+17-AAG,HSP90,,RNA-seq (all features),36,0.653,1055,LSSVM,0.658,-0.005,,,,,,
+SB-715992,KSP,,SNP6,41,0.651,14,RF,0.621,0.030,,,,,,
+BEZ235,PI3K,,Exome-seq (7 genes),45,0.650,7,LSSVM,0.552,0.098,,,,,,
+AZD6244,MEK,,U133A + meth + SNP6,36,0.650,854,LSSVM,0.358,0.292,,,,,,
+Gemcitabine,Pyrimidine animetabolite,,RNA-seq (gene level) + SNP6,33,0.639,46,LSSVM,0.384,0.254,,,,,,
+Nelfinavir,Proteasome,,RPPA,36,0.634,63,RF,0.587,0.047,,,,,,
+Sunitinib Malate,VEGFR,,RNA-seq (all features),35,0.633,3469,LSSVM,0.529,0.104,,,,,,
+ERKi II (FR180304),ERK1/ERK2,,Exon array (all features),38,0.625,375,LSSVM,0.399,0.226,,,,,,
+Oxamflatin,HDAC,,RPPA,35,0.625,24,RF,0.531,0.094,,,,,,
+Carboplatin,DNA cross-linker,,RNA-seq (gene level) + meth + SNP6,29,0.620,2080,RF,0.536,0.085,,,,,,
+Methotrexate,DHFR,,RNA-seq (gene level) + SNP6,33,0.615,203,LSSVM,0.603,0.012,,,,,,
+GSK650394,SGK,,Exome-seq (7 genes),44,0.598,7,LSSVM,0.386,0.212,,,,,,
+Temsirolimus(Torisel),mTOR,,RNA-seq (gene level),32,0.596,469,RF,0.509,0.087,,,,,,
+TPT(FD),Topoisomerase I,,Exon array (gene level) + SNP6,39,0.593,8,RF,0.517,0.076,,,,,,
+ZM447439,AURKA,,RPPA,33,0.581,4,RF,0.527,0.054,,,,,,
+Pemetrexed,DNA synthesis/ repair,,meth + SNP6,37,0.549,987,LSSVM,0.552,-0.003,,,,,,
+Velcade,"Proteasome, NFkB",,U133A,39,0.541,25,LSSVM,0.349,0.192,,,,,,
+,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+NF=optimal number of features included in the classifier; L=luminal; B=basal; CL=claudin-low; ERBB2=ERBB2-amplified,,,,,,,,,,,,,,,
+"ᴈAfter exclusion of the normal-like TCGA samples, the remaining TCGA samples were grouped according to the subtype specificity ",,,,,,,,,,,,,,,
+" observed in the cell line panel (that is, basal vs. luminal + ERBB2-amplified; luminal + ERBB2-amplified vs. basal; ERBB2-amplified ",,,,,,,,,,,,,,,
+ vs. luminal + basal; or luminal vs. basal + ERBB2-amplified) for drug compounds that showed significant or trending subtype ,,,,,,,,,,,,,,,
+" specificity (Heiser et al, PNAS 2011) with an LS-SVM signature based on expression, copy number and/or methylation with test AUC > 0.7. The ",,,,,,,,,,,,,,,
+ one-sided Fisher’s exact test was used for the comparison of these subtype groups with predicted response with use of probability ,,,,,,,,,,,,,,,
+" threshold 0.5. For these drugs, the median p-value with interquartile range across all predictors with AUC>0.7 are shown.",,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+"* For these drugs, pathway analysis was based on RPPA data (=best molecular data set for each of these drugs). This revealed",,,,,,,,,,,,,,,
+" many cancer-related pathways; however, caused by the bias towards cancer-associated proteins measured on the reverse protein",,,,,,,,,,,,,,,
+ lysate array. These pathways are therefore not listed in this table; see Supplementary Table 8 for complete results.,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+Clinical information: approved status obtained from drugbank (http://drugbank.ca); experimental phase obtained from http://clinicaltrials.gov,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+"TCGA prevalence (probability > 0.5), subtype and median p-value are determined using expression, copy number and/or methylation LS-SVM signatures with test AUC > 0.7",,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+"AUC values obtained with subtype information were consistently worse for Random Forests than for the LS-SVM,",,,,,,,,,,,,,,,
+whilst AUC values obtained on the molecular data sets were comparable between both classification methods.,,,,,,,,,,,,,,,
+"Because Random Forests might be an inappropriate classifier to use with such a small number of variables,",,,,,,,,,,,,,,,
+we opted for reporting the more conservative AUC differences by comparing the AUC values for both Random,,,,,,,,,,,,,,,
+Forests and LS-SVM classifiers based on molecular data to subtype results obtained with the LS-SVM. ,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+Concordance between GI50 and TGI calculated as percentage of cell lines assigned to the same group of sensitive or resistant lines with both drug ,,,,,,,,,,,,,,,
+"response measurements, where for TGI the mean threshold per drug was used, calculated similarly as for GI50 based on the set of 48 core cell lines.",,,,,,,,,,,,,,,
