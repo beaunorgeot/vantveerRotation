@@ -59,10 +59,11 @@ for(f in features){
   drugs1[,dummy.var] <- ifelse(drugs1[,f] >= mean(drugs1[,f],na.rm=T),1,0) 
 }
 
-drugsMean <- drugs1 %>% select(90:180)
-#Test for non-normalcy
+
+#Test for non-normalcy on the continous outputs
+drugsMean <- drugs1 %>% select(1:90)
 #acceptable for use w/our data < 2000 samples
-# null = not-normal. reject null if p.value greater than .1 according to docs, .05 most of time
+#
 shtest1 <- lapply(drugsMean,shapiro.test)
 #extract statistic and p-values
 drugsMeanNormalStats <- sapply(shtest1, `[`, c("statistic","p.value"))
@@ -70,7 +71,7 @@ drugsMeanNormalStats <- as.data.frame(drugsMeanNormalStats)
 #transpose
 drugsMeanNormalStats <- t(drugsMeanNormalStats)
 drugsMeanNormalStats <- as.data.frame(drugsMeanNormalStats)
-notNormMean <- drugsMeanNormalStats %>% filter(p.value > 0.5) #There are no rows that are blatantly not normal
+notNormMean <- drugsMeanNormalStats %>% filter(p.value < 0.05) #There are 63 rows that fail the normalcy test
 #investigate columns more latter w/qqplots
 
 #Next: sd == sqrt(var) in R, is.normal()?, 3 cuts (low dose is sens, middle 3rd neutral, upper 3rd res)
