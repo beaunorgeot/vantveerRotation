@@ -1,7 +1,7 @@
 
 setwd("/Users/beaunorgeot/vantveerRotation")
 #Headers are in the 3rd row
-mainTable <- read.csv("/Users/beaunorgeot/vantveer/SuppTab1.csv", skip = 2)
+mainTable <- read.csv("/Users/beaunorgeot/vantveerRotation/SuppTab1.csv", skip = 2)
 
 library(dplyr)
 #remove info I know I won't use
@@ -45,14 +45,14 @@ drugs1 <- drugs
 # This works!
 drugs1 <- drugs1 %>% mutate(Sens_X17.AAG = ifelse(X17.AAG < mean(X17.AAG,na.rm=T),1,0))
 
-# Create Sensitivity DummyVar
+# Create Sensitivity DummyVar using mean
 for(f in features){
   dummy.var <- paste("Sens", f, sep='_')
   drugs1[, dummy.var] <- NA
   drugs1[,dummy.var] <- ifelse(drugs1[,f] <= mean(drugs1[,f],na.rm=T),1,0) 
 }
 
-# Create Resistant DummyVar
+# Create Resistant DummyVar using mean
 for(f in features){
   dummy.var <- paste("Res", f, sep='_')
   drugs1[, dummy.var] <- NA
@@ -62,8 +62,7 @@ for(f in features){
 
 #Test for non-normalcy on the continous outputs
 drugsMean <- drugs1 %>% select(1:90)
-#acceptable for use w/our data < 2000 samples
-#
+
 shtest1 <- lapply(drugsMean,shapiro.test)
 #extract statistic and p-values
 drugsMeanNormalStats <- sapply(shtest1, `[`, c("statistic","p.value"))
@@ -71,12 +70,66 @@ drugsMeanNormalStats <- as.data.frame(drugsMeanNormalStats)
 #transpose
 drugsMeanNormalStats <- t(drugsMeanNormalStats)
 drugsMeanNormalStats <- as.data.frame(drugsMeanNormalStats)
+drugsMeanNormalStats <- add_rownames(drugsMeanNormalStats,"Drug Name")
+#acceptable for use w/our data < 2000 samples
+# If the chosen alpha level is 0.05 and the p-value is less than 0.05, 
+#then the null hypothesis that the data are normally distributed is rejected
 notNormMean <- drugsMeanNormalStats %>% filter(p.value < 0.05) #There are 63 rows that fail the normalcy test
+#This might mean that using anything related to sd isn't a good idea
+# Consider just using quantiles
 #investigate columns more latter w/qqplots
 
-#Next: sd == sqrt(var) in R, is.normal()?, 3 cuts (low dose is sens, middle 3rd neutral, upper 3rd res)
-# check to make sure dummy.var isn't a column, after running correlations on drugs ->
-# add the drug target from the other df as a column on this one
+#Next: sd == sqrt(var) in R, 3 cuts (low dose is sens, middle 3rd neutral, upper 3rd res)
+#QUANTILES
+drugsCut <- drugs
+drugsCutNames <- names(drugsCut)
+
+#impute w/median: try on single column
+#works fine
+drugsCut$X17.AAG <- ifelse(is.na(drugsCut$X17.AAG), median(drugsCut$X17.AAG, na.rm= TRUE), drugsCut$X17.AAG)
+colnames(drugsCut)[1] #colname here needs the quotes
+drugsCut[,"X17.AAG"] <- ifelse(is.na(drugsCut[,"X17.AAG"]), median(drugsCut[,"X17.AAG"], na.rm= TRUE), drugsCut[,"X17.AAG"])
+
+#programatic works
+for (f in drugsCutNames) {
+  drugsCut[,f] <- ifelse(is.na(drugsCut[,f]), median(drugsCut[,f], na.rm= TRUE), drugsCut[,f])
+}
+
+
+#Doesn't work
+drugsCut <- drugsCut %>% mutate(ifelse(is.na(X17.AAG),0,X17.AAG))
+
+library(Hmisc)
+inThirds <- as.data.frame(lapply(drugsCut, cut2, g=3))
+#inThirds <- as.data.frame(lapply(drugsCut, cut2, g=3), labels= c("Sens","AVG","Res"))
+#lbls <- c('Sens','AVG','Res')
+#inThirds <-  as.data.frame(lapply(inThirds, factor, labels=lvls))
+
+
+cutFeatures <- names(drugsCut)
+#Sensitivy classification by 1/3 quantiles
+for(f in cutFeatures){
+  dummy.var <- paste("Sens",f,sep="_")
+  inThirds[,dummy.var] <- NA
+  inThirds[,dummy.var] <- ifelse(inThirds[,f]=="Sens",1,0)
+}#This assigns every value to NA
+
+#Works
+levels(inThirds$X17.AAG) = c('Sens','AVG','Res') #correct assignment
+for (i in inThirds$X17.AAG){print(i)} #values are strings
+for (i in inThirds$X17.AAG){print(i)
+   if (i == "AVG") print("Hi")
+   }
+#Error in if (i == "AVG") print("Hi") : missing value where TRUE/FALSE needed
+#OK NEXT TRY IMPUTING W/MEDIAN
+
+#This should work, but converts everything to NA also
+inThirds <- inThirds %>% mutate_each(funs(factor(., levels = c("Sens","AVG","Res"))))
+
+
+
+#Next: 
+# after running correlations on drugs ->add the drug target from the other df as a column on this one
 
 
 
