@@ -33,17 +33,15 @@ zero4na <- mainTab %>% mutate(X17.AAG = ifelse(is.na(X17.AAG) ==T,median(X17.AAG
 drugs <- mainTab %>% select(-c(Cell.line,Transcriptional.subtype,Transcriptional.subtype...ERBB2.status))
 cellDesciptions <- mainTab %>% select(Cell.line,Transcriptional.subtype,Transcriptional.subtype...ERBB2.status)
 features <- names(drugs)
-# list to hold dummy vars. Cell lines will either get 0 or 1 for each of these vars
-response <- c("Sens","Res") 
-# give new column names to the data. rep() for replicate. repeat each item in features x2. repeat each item in response x90. 
-# then paste the first item in features to the first item in response using '_' to join them. These + diagnosis become the colnames
-drugResponse <- c(paste0(rep(features, 2), "_", rep(response, each=90)))
-drugs[,drugResponse] <- NA 
 
+# median impute
+for (f in features) {
+  drugs[,f] <- ifelse(is.na(drugs[,f]), median(drugs[,f], na.rm= TRUE), drugs[,f])
+}
 
 drugs1 <- drugs
 # This works!
-drugs1 <- drugs1 %>% mutate(Sens_X17.AAG = ifelse(X17.AAG < mean(X17.AAG,na.rm=T),1,0))
+#drugs1 <- drugs1 %>% mutate(Sens_X17.AAG = ifelse(X17.AAG < mean(X17.AAG,na.rm=T),1,0))
 
 # Create Sensitivity DummyVar using mean
 for(f in features){
@@ -86,14 +84,14 @@ drugsCutNames <- names(drugsCut)
 
 #impute w/median: try on single column
 #works fine
-drugsCut$X17.AAG <- ifelse(is.na(drugsCut$X17.AAG), median(drugsCut$X17.AAG, na.rm= TRUE), drugsCut$X17.AAG)
-colnames(drugsCut)[1] #colname here needs the quotes
-drugsCut[,"X17.AAG"] <- ifelse(is.na(drugsCut[,"X17.AAG"]), median(drugsCut[,"X17.AAG"], na.rm= TRUE), drugsCut[,"X17.AAG"])
+#drugsCut$X17.AAG <- ifelse(is.na(drugsCut$X17.AAG), median(drugsCut$X17.AAG, na.rm= TRUE), drugsCut$X17.AAG)
+#colnames(drugsCut)[1] #colname here needs the quotes
+#drugsCut[,"X17.AAG"] <- ifelse(is.na(drugsCut[,"X17.AAG"]), median(drugsCut[,"X17.AAG"], na.rm= TRUE), drugsCut[,"X17.AAG"])
 
 #programatic works
-for (f in drugsCutNames) {
-  drugsCut[,f] <- ifelse(is.na(drugsCut[,f]), median(drugsCut[,f], na.rm= TRUE), drugsCut[,f])
-}
+#for (f in drugsCutNames) {
+#  drugsCut[,f] <- ifelse(is.na(drugsCut[,f]), median(drugsCut[,f], na.rm= TRUE), drugsCut[,f])
+#}
 
 #Doesn't work: check me. I think it just needs drugsCut$X17.AAG instead of X17.AAG. Remember that is.na() is interpreting it, not dplyr
 #drugsCut <- drugsCut %>% mutate(ifelse(is.na(X17.AAG),0,X17.AAG))
@@ -102,12 +100,13 @@ library(Hmisc)
 inThirds <- as.data.frame(lapply(drugsCut, cut2, g=3))
 thirdNames <- names(inThirds)
 #this produces a df that looks correct
-#for (n in thirdNames) {levels(inThirds[,n]) <- c('Sens','AVG','Res')}
+for (n in thirdNames) {levels(inThirds[,n]) <- c('Sens','AVG','Res')}
 # but: levels(inThirds) returns NULL
-#this works 
+#this fixes them
 levels(inThirds) <- c('Sens','AVG','Res')
 #test[,"X17.AAG"] <- ifelse(test[,"X17.AAG"] == "Sens",1,0) WORKS!
 
+#Sens dummy
 for (n in thirdNames) {
   dummy.var <- paste("Sens", n, sep='_')
   inThirds[,dummy.var] <- NA
