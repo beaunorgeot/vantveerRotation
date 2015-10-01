@@ -113,6 +113,19 @@ for (n in thirdNames) {
   inThirds[,dummy.var] <- ifelse(inThirds[,n] == "Sens",1,0)
 }
 
+# Res dummy
+for (n in thirdNames) {
+  dummy.var <- paste("Res", n, sep='_')
+  inThirds[,dummy.var] <- NA
+  inThirds[,dummy.var] <- ifelse(inThirds[,n] == "Res",1,0)
+}
+
+# Avg dummy
+for (n in thirdNames) {
+  dummy.var <- paste("AVG", n, sep='_')
+  inThirds[,dummy.var] <- NA
+  inThirds[,dummy.var] <- ifelse(inThirds[,n] == "AVG",1,0)
+}
 #Next: 
 # after running correlations on drugs ->add the drug target from the other df as a column on this one
 
