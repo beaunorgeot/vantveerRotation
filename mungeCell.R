@@ -95,38 +95,24 @@ for (f in drugsCutNames) {
   drugsCut[,f] <- ifelse(is.na(drugsCut[,f]), median(drugsCut[,f], na.rm= TRUE), drugsCut[,f])
 }
 
-
-#Doesn't work
-drugsCut <- drugsCut %>% mutate(ifelse(is.na(X17.AAG),0,X17.AAG))
+#Doesn't work: check me. I think it just needs drugsCut$X17.AAG instead of X17.AAG. Remember that is.na() is interpreting it, not dplyr
+#drugsCut <- drugsCut %>% mutate(ifelse(is.na(X17.AAG),0,X17.AAG))
 
 library(Hmisc)
 inThirds <- as.data.frame(lapply(drugsCut, cut2, g=3))
-#inThirds <- as.data.frame(lapply(drugsCut, cut2, g=3), labels= c("Sens","AVG","Res"))
-#lbls <- c('Sens','AVG','Res')
-#inThirds <-  as.data.frame(lapply(inThirds, factor, labels=lvls))
+thirdNames <- names(inThirds)
+#this produces a df that looks correct
+#for (n in thirdNames) {levels(inThirds[,n]) <- c('Sens','AVG','Res')}
+# but: levels(inThirds) returns NULL
+#this works 
+levels(inThirds) <- c('Sens','AVG','Res')
+#test[,"X17.AAG"] <- ifelse(test[,"X17.AAG"] == "Sens",1,0) WORKS!
 
-
-cutFeatures <- names(drugsCut)
-#Sensitivy classification by 1/3 quantiles
-for(f in cutFeatures){
-  dummy.var <- paste("Sens",f,sep="_")
+for (n in thirdNames) {
+  dummy.var <- paste("Sens", n, sep='_')
   inThirds[,dummy.var] <- NA
-  inThirds[,dummy.var] <- ifelse(inThirds[,f]=="Sens",1,0)
-}#This assigns every value to NA
-
-#Works
-levels(inThirds$X17.AAG) = c('Sens','AVG','Res') #correct assignment
-for (i in inThirds$X17.AAG){print(i)} #values are strings
-for (i in inThirds$X17.AAG){print(i)
-   if (i == "AVG") print("Hi")
-   }
-#Error in if (i == "AVG") print("Hi") : missing value where TRUE/FALSE needed
-#OK NEXT TRY IMPUTING W/MEDIAN
-
-#This should work, but converts everything to NA also
-inThirds <- inThirds %>% mutate_each(funs(factor(., levels = c("Sens","AVG","Res"))))
-
-
+  inThirds[,dummy.var] <- ifelse(inThirds[,n] == "Sens",1,0)
+}
 
 #Next: 
 # after running correlations on drugs ->add the drug target from the other df as a column on this one
