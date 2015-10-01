@@ -43,18 +43,18 @@ drugs1 <- drugs
 # This works!
 #drugs1 <- drugs1 %>% mutate(Sens_X17.AAG = ifelse(X17.AAG < mean(X17.AAG,na.rm=T),1,0))
 
-# Create Sensitivity DummyVar using mean
+# Create Sensitivity DummyVar using median
 for(f in features){
   dummy.var <- paste("Sens", f, sep='_')
   drugs1[, dummy.var] <- NA
-  drugs1[,dummy.var] <- ifelse(drugs1[,f] <= mean(drugs1[,f],na.rm=T),1,0) 
+  drugs1[,dummy.var] <- ifelse(drugs1[,f] <= median(drugs1[,f],na.rm=T),1,0) 
 }
 
 # Create Resistant DummyVar using mean
 for(f in features){
   dummy.var <- paste("Res", f, sep='_')
   drugs1[, dummy.var] <- NA
-  drugs1[,dummy.var] <- ifelse(drugs1[,f] >= mean(drugs1[,f],na.rm=T),1,0) 
+  drugs1[,dummy.var] <- ifelse(drugs1[,f] >= median(drugs1[,f],na.rm=T),1,0) 
 }
 
 
@@ -126,11 +126,29 @@ for (n in thirdNames) {
   inThirds[,dummy.var] <- NA
   inThirds[,dummy.var] <- ifelse(inThirds[,n] == "AVG",1,0)
 }
+
+# BRING IN DRUG TARGET DATA
+targIn <- read.csv("~/vantveerRotation/targetClinicalModel.csv",  skip = 2)
+# just get drug name and target name, and change the names
+targOnly <- targIn %>% select(drugName = Drug.compound,target = Target)
+targOnly <- targOnly[1:93,] #no data below r93
+targOnly <- targOnly[-c(53,54),] #empty rows
+targOnly$drugName <- as.character(targOnly$drugName)
+
+#NEXT: 
+#1.Remove drugs that aren't in the drugs df, and make sure all that are in the drugs df are present in targOnly$drugName
+#2. Create X17.AAG_target column and add in the target?
+
+#add cell descriptions back in
+allThirds <- cbind(cellDesciptions,inThirds)
+alldrugs <- cbind(cellDesciptions,drugs1)
+
+#save working dfs to data file
+save(inThirds, file = "quartiles3.RData")
+save(drugs1,file = "medUpDown.RData")
+
 #Next: 
 # after running correlations on drugs ->add the drug target from the other df as a column on this one
-
-
-
 
 #NOTES
 # apply(). Write a function that does what you want to 1 column, pass that function and the df of interest to apply()
@@ -149,3 +167,13 @@ drugs2 <- as.matrix(drugs1)
 # the lowest 25% become the sensitives, and the highest 25% become the resistants?
 #assign cell lines to resistant/sensetive to each agent
 #zeroBin <- zero4na %>% mutate_each(ifelse(. < (. - sd(.)),1,0))
+
+# this all belongs in exploreCell
+#CORRELATION
+#take only the dummy var responses so that we're in the world of Sens and Res
+bidrugs <- drugs1[,91:270]
+#generate correlation table
+corbidrugs <- cor(bidrugs) #warning: standard deviation is zero
+#turn into df so have access to colnames
+c <- as.data.frame(corbidrugs)
+#What correlation coeffecient values are highly signficant?
