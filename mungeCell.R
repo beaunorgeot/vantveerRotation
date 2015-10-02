@@ -175,5 +175,35 @@ bidrugs <- drugs1[,91:270]
 #generate correlation table
 corbidrugs <- cor(bidrugs) #warning: standard deviation is zero
 #turn into df so have access to colnames
-c <- as.data.frame(corbidrugs)
+cors <- as.data.frame(corbidrugs)
+colNames <- names(cors)
+rowNames <- row.names(cors)
+#get important relationships
 #What correlation coeffecient values are highly signficant?
+# for all columns, if the abs of a column value is >.8, give me the columnName, the rowName, and the actual value ->
+# Store these values as a list, that is stored in a larger list
+
+sigValues = NULL #list() list vs vector in r. Seems NULL generators an atomic vector, which could become a list?
+# this doesn't work, and nested for loops in r seem like a pretty bad idea
+for (name in colNames ) {
+  for (pos in name){
+  indexes <- which(abs(colNames[,pos] > 0.8), arr.ind = T)
+  sigValues[i] = paste(rownames(cors)[indexes[,1]], colnames(cors)[indexes[,2]], colNames[i])
+  }
+}
+#indexes[,1] is row name
+#indexes[,2] is col name
+# the following provides the indices of all the values that match. 
+
+bob <- data.frame(replicate(10,sample(-5:5,10,rep=TRUE)))
+inds <- which(abs(bob) > 3, arr.ind = T)
+#How do I get the values themselves?
+rnames = rownames(bob)[inds[,1]]
+cnames = colnames(bob)[inds[,2]]
+
+#this seems really close, but isn't working, excpet it seems to do what I want on the last cell
+#bob[rnames[1],cnames[1]] :: this works fine
+bobsData <- NULL
+for (i in length(cnames)){
+  bobsData[i] <- paste(bob[rnames[i],cnames[i]], rnames[i], cnames[i], sep=",")
+}
