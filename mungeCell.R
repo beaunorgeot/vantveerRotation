@@ -197,13 +197,21 @@ for (name in colNames ) {
 
 bob <- data.frame(replicate(10,sample(-5:5,10,rep=TRUE)))
 inds <- which(abs(bob) > 3, arr.ind = T)
+#there are 30 postions shown by View(). length() returns 60, a row and a col for each of the 30 values.
+# so the number of positions is length(inds)/2. Important for larger sets
+
 #How do I get the values themselves?
 rnames = rownames(bob)[inds[,1]]
 cnames = colnames(bob)[inds[,2]]
 
 #this seems really close, but isn't working, excpet it seems to do what I want on the last cell
 #bob[rnames[1],cnames[1]] :: this works fine
-bobsData <- NULL
-for (i in length(cnames)){
-  bobsData[i] <- paste(bob[rnames[i],cnames[i]], rnames[i], cnames[i], sep=",")
+bobsData = vector("list",30)
+#bobsData <- NULL
+#bobsData = list()
+for (i in 1:30){
+  bobsData[i] <- c(paste("Value:",bob[rnames[i],cnames[i]], "Pairing:",rnames[i], cnames[i], sep=" "))
 }
+#for (i in cnames) print (cnames[i]) doesn't work
+#for (i in 1:30) print (cnames[i]) ::Works.
+#for (i in length(cnames)) print (cnames[i]) #prints 1 value
