@@ -172,25 +172,49 @@ drugs2 <- as.matrix(drugs1)
 #CORRELATION
 #take only the dummy var responses so that we're in the world of Sens and Res
 bidrugs <- drugs1[,91:270]
-#generate correlation table
+# just create a count summary
+sumBidrugs <- bidrugs %>% summarise_each(funs(sum))
+sumBidrugs <- as.data.frame(t(sumBidrugs))
+sumBidrugs2 <- cbind(ResponseOfDrug = rownames(sumBidrugs), numObservations = sumBidrugs$V1)
+#dnames <- names(bidrugs)
+#sumBidrugs1 <- cbind(dnames,sumBidrugs)
+#colnames(sumBidrugs1) <- c("responseOfDrug", "numObservations ")
+
+
+#generate correlation table#######
 corbidrugs <- cor(bidrugs) #warning: standard deviation is zero
 #turn into df so have access to colnames
 cors <- as.data.frame(corbidrugs)
-colNames <- names(cors)
-rowNames <- row.names(cors)
-#get important relationships
-#What correlation coeffecient values are highly signficant?
+inds <- which(abs(cors) > 0.8, arr.ind = T)
+length(inds)/2 #there are 182 significant values
+dim(cors) #180 by 180. 32400 total pairings. 182/32400 = 0.005617 % of all values that are extremely highly correlated
+
+rnames = rownames(cors)[inds[,1]]
+cnames = colnames(cors)[inds[,2]]
 # for all columns, if the abs of a column value is >.8, give me the columnName, the rowName, and the actual value ->
 # Store these values as a list, that is stored in a larger list
 
-sigValues = NULL #list() list vs vector in r. Seems NULL generators an atomic vector, which could become a list?
-# this doesn't work, and nested for loops in r seem like a pretty bad idea
-for (name in colNames ) {
-  for (pos in name){
-  indexes <- which(abs(colNames[,pos] > 0.8), arr.ind = T)
-  sigValues[i] = paste(rownames(cors)[indexes[,1]], colnames(cors)[indexes[,2]], colNames[i])
-  }
+sigValues = vector("list",182) #list() list vs vector in r. Seems NULL generators an atomic vector, which could become a list?
+
+for (i in 1:182){
+  sigValues[i] <- c(paste("Value:",sigValues[rnames[i],cnames[i]], "Pairing:", rnames[i], cnames[i], sep=" "))
 }
+
+#Error in sigValues[rnames[i], cnames[i]] : incorrect number of dimensions
+summary(cors) #there are 5 NAs in each column, maybe this is causing the problems. Could be related to
+# the warning that the sd of cors is zero also
+##########
+
+#c#### Running Chisq #####
+#turning numerics into factors
+factoredDrugs <- as.data.frame(lapply(bidrugs,factor))
+#summary(factoredDrugs) weired stuff is happening here
+freqTable <- sapply(factoredDrugs, table)
+countsTable <- sapply(bidrugs, sum)
+# chi1 <- chisq.test(countsTable) not even remotely useful, checks whether all values are associated
+###########
+
+###### Creating Test case to trouble shoot########
 #indexes[,1] is row name
 #indexes[,2] is col name
 # the following provides the indices of all the values that match. 
@@ -209,9 +233,14 @@ cnames = colnames(bob)[inds[,2]]
 bobsData = vector("list",30)
 #bobsData <- NULL
 #bobsData = list()
+#Below loop does exactly what I want.
 for (i in 1:30){
   bobsData[i] <- c(paste("Value:",bob[rnames[i],cnames[i]], "Pairing:",rnames[i], cnames[i], sep=" "))
 }
 #for (i in cnames) print (cnames[i]) doesn't work
 #for (i in 1:30) print (cnames[i]) ::Works.
 #for (i in length(cnames)) print (cnames[i]) #prints 1 value
+
+
+
+#########end test ##################
