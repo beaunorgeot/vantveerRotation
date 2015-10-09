@@ -244,3 +244,16 @@ for (i in 1:30){
 
 
 #########end test ##################
+#Odd's Ratio thoughts for just the first 2 columns of bidrugs. Select just the first 2 columns
+# Need row data to create 4 different numbers from those 2 columns
+
+#    n00 = number of cases where x = 0 and y = 0
+#    n01 = number of cases where x = 0 and y = 1
+#    n10 = number of cases where x = 1 and y = 0
+#    n11 = number of cases where x = 1 and y = 1
+
+#the above can be accomplished with table
+library(epitools) #for oddsratio()
+t <- bidrugs[,1:2]
+tp <- table(t)
+oddsratio(tp)
