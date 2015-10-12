@@ -257,3 +257,9 @@ library(epitools) #for oddsratio()
 t <- bidrugs[,1:2]
 tp <- table(t)
 oddsratio(tp)
+
+
+# format for Chi square for this experiment
+# Row1: Sensitive
+# Row 2: Resistant
+# Columns 1:90 Each drug
