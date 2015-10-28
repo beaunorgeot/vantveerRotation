@@ -60,7 +60,7 @@ bidrugs <- drugs1[,91:270]
 # just create a count summary
 sumBidrugs <- bidrugs %>% summarise_each(funs(sum))
 #sumBidrugs <- as.data.frame(t(sumBidrugs))
-sumBidrugs <- as.data.frame(t(sumBidrugs), row.names = NULL)
+#sumBidrugs <- as.data.frame(t(sumBidrugs), row.names = NULL)
 #sumBidrugs2 <- cbind(ResponseOfDrug = rownames(sumBidrugs), numObservations = sumBidrugs$V1)
 
 #create 2 x J table tracking senstive and resistant counts for each drug
@@ -73,18 +73,22 @@ for (i in 1:90){
   drugTable[2,i] <- sumBidrugs[1,i+90]
 }
 
+
+save(drugTable, file = "drugContigencyTable.Rdata")
+
+
+# EVERYTHING BELOW HERE BELONGS IN EXPLORE
 avgCounts <- rowMeans(drugTable)
 #Sensitive Resistant 
 #46.32222  47.58889
+library(dplyr)
+#how many drugs have either an especially high/low ratio of sens/res?
 
 responseProps <- as.data.frame(sapply(drugTable,prop.table))
 # this can't be working the way I want it to. dim(responseProps) is 2 x 90
 # I want prop.table of col1 x col2, col1 x col3, col1 x colj, col2 x col3, etc
 
-#testing
-test <- drugTable[,1:2]
-prop.table(test)
-library(epitools) #for odds.ratio function
-# this odds test doesn't work. Next step is read docs: https://cran.r-project.org/web/packages/epitools/epitools.pdf
-epitab(test, method = "oddsratio")
 
+#testing
+test <- as.matrix(drugTable[,1:2])
+barplot(test, beside = T, legend = T)
