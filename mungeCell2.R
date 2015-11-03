@@ -90,5 +90,42 @@ responseProps <- as.data.frame(sapply(drugTable,prop.table))
 
 
 #testing
+# from: https://www.youtube.com/watch?v=V_YNPQoAyCc
+# on odds ratio, relative risk, attributal risk (risk difference)
 test <- as.matrix(drugTable[,1:2])
-barplot(test, beside = T, legend = T)
+barplot(test, beside = T, legend = T) #get 2 plots side by side w/a legend
+library(epiR)
+#the epi.2by2() returns all 3 measurements if method = cohort.count
+epi.2by2(test, method = "cohort.count", conf.level = 0.95)
+# Interpreting odds ratio: see 4:30 of video
+
+# The typcial 2x2 format is:row/column, with the exposure (exposuredToDrug1,exposuredToDrug2) as the rows and the outcome as the columns (sens, res)
+# yes/yes  yes/no
+# no/yes   no/no
+# exposure could be gender, or drug. Outcome is some action that exposure can produce. a girl can smoke, a girl can not smoke
+# a drug can produce a response/reaction, a drug can produce no response/reaction
+
+# Odds of female smoking are 1.4 times the odds of male smoking
+# Odds of being 'yes' to exposure1 are someValue times the odds of 'yes' to exposure2
+# If the confidence interval for the odds ratio contains the value of 1, then the results are NOT significant
+
+
+#I want the joint probability
+#For resitance matrix: calculate the number of resistant vs total number in that column.
+
+#make 4 different matrices, 1 for each r to r, r to s, etc.
+# Each matrix will be a 90*90. 
+rr = matrix(NA, nrow = 90, ncol = 90) #res to drug2 given res to drug1
+rs = matrix(NA, nrow = 90, ncol = 90) #res to drug2 given sens to drug1
+ss = matrix(NA, nrow = 90, ncol = 90) #sens to drug2 given sens to drug1
+sr = matrix(NA, nrow = 90, ncol = 90) #sens to drug2 given res to drug1
+
+for (drug in 1:90){
+  for(row in 1:90){
+    prior = q3responses[q3responses[,drug]==1,]
+    rr[row,drug] = mean(prior[,row])
+  }
+}
+
+#q3responses %>% filter(Sens_X5.FU == 1) #takes all rows that are sensitive to FU
+#ja = q3responses[q3responses[,2]==1,] does the same as the dplyr above
