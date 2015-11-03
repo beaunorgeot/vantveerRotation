@@ -144,8 +144,10 @@ allThirds <- cbind(cellDesciptions,inThirds)
 alldrugs <- cbind(cellDesciptions,drugs1)
 
 #save working dfs to data file
-save(inThirds, file = "quartiles3.RData")
-save(drugs1,file = "medUpDown.RData")
+save(inThirds, file = "quartiles3Complete.RData")
+q3responses = inThirds[,91:360]
+save(q3responses, file = "q3responses.RData") #classification by 3 quantiles
+save(drugs1,file = "medUpDown.RData") #classification by median
 
 #Next: 
 # after running correlations on drugs ->add the drug target from the other df as a column on this one
@@ -210,9 +212,12 @@ summary(cors) #there are 5 NAs in each column, maybe this is causing the problem
 factoredDrugs <- as.data.frame(lapply(bidrugs,factor))
 #summary(factoredDrugs) weired stuff is happening here
 freqTable <- sapply(factoredDrugs, table)
-countsTable <- sapply(bidrugs, sum)
+countsTable <- as.data.frame(sapply(bidrugs, sum))
 # chi1 <- chisq.test(countsTable) not even remotely useful, checks whether all values are associated
 ###########
+#convert to a 2 x j table with sensitivity and resistance as the rows and the drugName as the cols
+
+
 
 ###### Creating Test case to trouble shoot########
 #indexes[,1] is row name
@@ -241,7 +246,12 @@ for (i in 1:30){
 #for (i in 1:30) print (cnames[i]) ::Works.
 #for (i in length(cnames)) print (cnames[i]) #prints 1 value
 
+############
+test <- bidrugs[,1:5]
+chiTest <- sapply(test,chisq.test) #the expected values are all identical and a float
+#could just do same thing as chisq.test w/a conditional probability test
 
+##############
 
 #########end test ##################
 #Odd's Ratio thoughts for just the first 2 columns of bidrugs. Select just the first 2 columns
